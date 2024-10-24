@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Webcam Feed</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: url("{{ url_for('static', filename='background.jpg') }}") no-repeat center center fixed;
+            background-size: cover;
+        }
+        .video-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        img {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            max-width: 100%;
+            height: auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        button {
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <h1>Live Webcam Feed with Face Detection</h1>
+        <img id="video-feed" src="{{ url_for('video_feed') }}" width="800" height="600">
+    </div>
+    <button id="start-button">Start</button>
+    <script>
+        document.getElementById('start-button').addEventListener('click', function() {
+            fetch('/start').then(response => {
+                if (response.status === 204) {
+                    document.querySelector('.video-container').style.display = 'flex';
+                    document.getElementById('start-button').style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
